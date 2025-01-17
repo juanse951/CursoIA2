@@ -1,7 +1,11 @@
 package com.aluracursos;
 
-import com.theokanning.openai.completion.CompletionRequest;
+import com.theokanning.openai.completion.chat.ChatCompletionRequest;
+import com.theokanning.openai.completion.chat.ChatMessage;
+import com.theokanning.openai.completion.chat.ChatMessageRole;
 import com.theokanning.openai.service.OpenAiService;
+
+import java.util.Arrays;
 
 
 public class PruebaLaIntegracion {
@@ -12,11 +16,13 @@ public class PruebaLaIntegracion {
                 "por ejemplo: Aspiradora , Televisíon";
 
         var service = new OpenAiService("your_token");
-        CompletionRequest completionRequest = CompletionRequest.builder()
-                .prompt("Somebody once told me the world is gonna roll me")
-                .model("babbage-002"")
-                        .echo(true)
+        var request = ChatCompletionRequest.builder()
+                .model("gpt-4o-mini")
+                .messages(Arrays.asList(
+                        new ChatMessage(ChatMessageRole.USER.value(), user),
+                        new ChatMessage(ChatMessageRole.SYSTEM.value(), system)
+                ))
                         .build();
-        service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+        service.createChatCompletion(request).getChoices().forEach(System.out::println);
     }
 }
