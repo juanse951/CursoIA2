@@ -10,12 +10,20 @@ import java.util.Arrays;
 
 public class PruebaLaIntegracion {
     public static void main(String[] args) {
+
+        String apiKey = System.getenv("OPENAI_APIKEY");
+
+        if (apiKey == null || apiKey.isEmpty()) {
+            System.err.println("Error: La variable de entorno 'OPENAI_APIKEY' no está configurada.");
+            return;
+        }
+
         var user = "Genera 5 productos";
         var system = "Eres un generador de productos de un E-comerce de " +
                 "electronicos y debes responder solo el nombre del producto " +
                 "por ejemplo: Aspiradora , Televisíon";
 
-        var service = new OpenAiService("your_token");
+        var service = new OpenAiService(apiKey);
         var request = ChatCompletionRequest.builder()
                 .model("gpt-4o-mini")
                 .messages(Arrays.asList(
